@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="src/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div id="app">
+      <div id="container-card">
+        <h2>Carta actual</h2>
+        <div class="container-game">
+          <div class="container-text">
+            <span>Tu puntuación: </span>
+            <span id="text-score"></span> <span id="text-over"></span>
+          </div>
+          <img
+            src="https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg
+  
+          "
+            id="card"
+          />
+        </div>
+        <div class="container-button">
+          <button id="button-card">Nueva carta</button>
+          <button id="button-stop" disabled>Plantarse</button>
+          <button id="button-game-over" disabled>Reiniciar</button>
+          <button id="button-clue" class="hide">Pista</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
