@@ -1,13 +1,12 @@
 const textScoreElement = document.getElementById("text-score");
 const textOverElement = document.getElementById("text-over");
-const buttonCardElement: HTMLButtonElement | null = document.getElementById("button-card") as HTMLButtonElement | null;
-const buttonStopElement: HTMLButtonElement | null = document.getElementById("button-stop") as HTMLButtonElement | null;
-const buttonGameOverElement: HTMLButtonElement | null = document.getElementById("button-game-over") as HTMLButtonElement | null;
-const buttonClueElement: HTMLButtonElement | null = document.getElementById("button-clue") as HTMLButtonElement | null;
-const cardElement: HTMLImageElement | null = document.getElementById('card') as HTMLImageElement | null;
+const buttonCardElement = document.getElementById("button-card");
+const buttonStopElement = document.getElementById("button-stop") 
+const buttonGameOverElement = document.getElementById("button-game-over");
+const buttonClueElement = document.getElementById("button-clue");
+const cardElement = document.getElementById("card");
 let score = 0;
 let randomNumber: number = 0;
-
 const cardUrls: { [key: number]: string } = {
   1: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg",
   2: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg",
@@ -20,7 +19,6 @@ const cardUrls: { [key: number]: string } = {
   11: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg",
   12: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg",
 };
-
 const allCards: { [key: string]: string } = {
   "1": "<b>As de copas</b>",
   "2": "<b>Dos de copas</b>",
@@ -38,7 +36,6 @@ const allCards: { [key: string]: string } = {
 
 const printUrlCard = (card: number) => {
   const cardElement = document.getElementById("card");
-
   if (
     cardElement !== null &&
     cardElement !== undefined &&
@@ -49,23 +46,37 @@ const printUrlCard = (card: number) => {
 };
 
 const checkButton = () => {
-    const buttons = [buttonCardElement, buttonStopElement, buttonClueElement, buttonGameOverElement];
+  if (buttonCardElement instanceof HTMLButtonElement && buttonCardElement.disabled) {
+    buttonCardElement.classList.add("button-disabled");
+  } else {
+    buttonCardElement?.classList.remove("button-disabled");
+  }
 
-    buttons.forEach(button => {
-        if (button?.disabled) {
-            button.classList.add('button-disabled');
-        } else {
-            button?.classList.remove('button-disabled');
-        }
-    });
+  if (buttonStopElement instanceof HTMLButtonElement && buttonStopElement.disabled) {
+    buttonStopElement.classList.add("button-disabled");
+  } else {
+    buttonStopElement?.classList.remove("button-disabled");
+  }
+
+  if (buttonClueElement instanceof HTMLButtonElement && buttonClueElement.disabled) {
+    buttonClueElement.classList.add("button-disabled");
+  } else {
+    buttonClueElement?.classList.remove("button-disabled");
+  }
+
+  if (buttonGameOverElement instanceof HTMLButtonElement && buttonGameOverElement.disabled) {
+    buttonGameOverElement.classList.add("button-disabled");
+  } else {
+    buttonGameOverElement?.classList.remove("button-disabled");
+  }
 };
 
 
-const activeButtonStop = () =>{
-    if (buttonStopElement) {
-        buttonStopElement.disabled = false;
-      }
-}
+const activeButtonStop = () => {
+  if (buttonStopElement instanceof HTMLButtonElement) {
+    buttonStopElement.disabled = false;
+  }
+};
 
 const getCardPoints = (card: number) => {
   return card > 7 ? 0.5 : card;
@@ -80,36 +91,50 @@ const setScore = (newScore: number) => {
 };
 
 const winGame = () => {
-    if(textOverElement != null && buttonCardElement && buttonStopElement && buttonGameOverElement){
-        textOverElement.textContent = "¡ Lo has clavado! ¡Enhorabuena!";
-        buttonCardElement.disabled = true;
-        buttonStopElement.disabled = true;
-        buttonGameOverElement.disabled = false;
-    }
+  if (
+    textOverElement != null &&
+    buttonCardElement instanceof HTMLButtonElement &&
+    buttonStopElement instanceof HTMLButtonElement &&
+    buttonGameOverElement instanceof HTMLButtonElement
+  ) {
+    textOverElement.textContent = "¡ Lo has clavado! ¡Enhorabuena!";
+    buttonCardElement.disabled = true;
+    buttonStopElement.disabled = true;
+    buttonGameOverElement.disabled = false;
+  }
 };
 
 const lostGame = () => {
-    if (textOverElement != null && buttonGameOverElement && buttonStopElement && buttonCardElement) {
-        textOverElement.textContent = "Te has pasado";
-        buttonGameOverElement.disabled = false;
-        buttonStopElement.disabled = true;
-        buttonCardElement.disabled = true;
-    }
+  if (
+    textOverElement != null &&
+    buttonGameOverElement instanceof HTMLButtonElement &&
+    buttonStopElement instanceof HTMLButtonElement &&
+    buttonCardElement instanceof HTMLButtonElement
+  ) {
+    textOverElement.textContent = "Te has pasado";
+    buttonGameOverElement.disabled = false;
+    buttonStopElement.disabled = true;
+    buttonCardElement.disabled = true;
+  }
 };
 
 const reviewGame = () => {
   if (score === 7.5) {
     winGame();
   }
-
   if (score > 7.5) {
     lostGame();
   }
 };
 
+const printScore = (score: number) => {
+  if (textScoreElement && textScoreElement instanceof HTMLSpanElement) {
+    textScoreElement.textContent = score.toString();
+  }
+};
 
 const checkScore = (): void => {
-  if (textScoreElement !== null) {
+  if (textScoreElement !== null && textScoreElement instanceof HTMLSpanElement) {
     if (randomNumber <= 7) {
       score += randomNumber;
     } else {
@@ -117,54 +142,71 @@ const checkScore = (): void => {
     }
     textScoreElement.textContent = score.toString();
   }
-
   checkButton();
 };
 
-const showCard = (): void => {
-  if (cardElement !== null && cardUrls[randomNumber]) {
-    cardElement.src = cardUrls[randomNumber];
+const showCard = (cart: number): void => {
+  if (cardElement !== null && cardUrls[cart] && cardElement instanceof HTMLImageElement) {
+    cardElement.src = cardUrls[cart];
   }
 };
 
-const restartGame = (): void =>{
-    if (cardElement && textOverElement !== null && textScoreElement !== null
-      ) {
-        cardElement.src = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
-        textOverElement.textContent = "";
-        textScoreElement.textContent = score.toString();
-      }
-}
+const restartGame = (): void => {
+  if (cardElement instanceof HTMLImageElement && textOverElement instanceof HTMLSpanElement && textScoreElement instanceof HTMLSpanElement) {
+    cardElement.src =
+      "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
+    textOverElement.textContent = "";
+    textScoreElement.textContent = score.toString();
+  }
+};
 
-const restartButton = (): void =>{
-    if (buttonCardElement && buttonStopElement && buttonGameOverElement && buttonClueElement) {
-        buttonCardElement.disabled = false;
-        buttonStopElement.disabled = true;
-        buttonGameOverElement.disabled = true;
-        buttonClueElement.classList.add("hide");
-      }
+const restartButton = (): void => {
+  if (
+    buttonCardElement instanceof HTMLButtonElement &&
+    buttonStopElement instanceof HTMLButtonElement &&
+    buttonGameOverElement instanceof HTMLButtonElement &&
+    buttonClueElement instanceof HTMLButtonElement
+  ) {
+    buttonCardElement.disabled = false;
+    buttonStopElement.disabled = true;
+    buttonGameOverElement.disabled = true;
+    buttonClueElement.classList.add("hide");
+  }
+};
+
+const mostrarMensajeCuandoParoLaPartida = (mensaje: string) => {
+  const textOverElement = document.getElementById("");
+  if (textOverElement) {
+    textOverElement.textContent = mensaje;
+  }
+};
+
+const printTextStopGame = ():string =>{
+  if (score < 4 && textOverElement) {
+    return "Has sido muy conservador";
+  } else if (score <= 5 && textOverElement != null) {
+    return "Te ha entrado el canguelo eh?";
+  } else if (score <= 7 && textOverElement != null) {
+    return "Casi casi...";
+  } else if (score === 7.5 && textOverElement != null) {
+    return "¡ Lo has clavado! ¡Enhorabuena!";
+  }
+  return "";
 }
 
 const stopGameFuntion = (): void => {
-  if (buttonCardElement && buttonStopElement && buttonGameOverElement) {
+  if (buttonCardElement instanceof HTMLButtonElement && buttonStopElement instanceof HTMLButtonElement && buttonGameOverElement instanceof HTMLButtonElement) {
     buttonCardElement.disabled = true;
     buttonStopElement.disabled = true;
     buttonGameOverElement.disabled = false;
   }
-  if (score < 4 && textOverElement != null) {
-    textOverElement.textContent = "Has sido muy conservador";
-  } else if (score <= 5 && textOverElement != null) {
-    textOverElement.textContent = "Te ha entrado el canguelo eh?";
-  } else if (score <= 7 && textOverElement != null) {
-    textOverElement.textContent = "Casi casi...";
-  } else if (score === 7.5 && textOverElement != null) {
-    textOverElement.textContent = "¡ Lo has clavado! ¡Enhorabuena!";
-  }
-
   if (buttonClueElement) {
     buttonClueElement.classList.remove("hide");
   }
-
+  const message = printTextStopGame()
+  if (textOverElement) {
+    textOverElement.textContent = message; 
+  }
   checkButton();
 };
 
@@ -172,8 +214,7 @@ const clueFuntion = (): void => {
   let nextRandomNumber = 0;
   nextRandomNumber =
     Math.floor(Math.random() * 10 + 1) + (nextRandomNumber > 7 ? 2 : 0);
-
-  if (textOverElement != null) {
+  if (textOverElement != null && textOverElement instanceof HTMLSpanElement) {
     const cardName = allCards[nextRandomNumber.toString()];
     textOverElement.innerHTML = `La siguiente hubiera sido la carta: <br>${cardName}`;
   }
@@ -194,24 +235,22 @@ const newCard = (): void => {
   const points = getCardPoints(card);
   const pointsSum = sumPoints(points);
   setScore(pointsSum);
+  printScore(score);
   activeButtonStop();
   reviewGame();
-  checkScore();
-  checkButton()
-
-  console.log("La puntuación es " + score);
+  checkButton();
 };
 
 const playAgain = (): void => {
   score = 0;
   randomNumber = 0;
-  restartGame()
-  restartButton()
-  checkButton()
+  restartGame();
+  restartButton();
+  checkButton();
 };
 
-window.addEventListener("DOMContentLoaded", checkScore);
 
+window.addEventListener("DOMContentLoaded", checkScore);
 if (
   buttonCardElement !== null &&
   buttonCardElement !== undefined &&
@@ -219,6 +258,24 @@ if (
 ) {
   buttonCardElement.addEventListener("click", newCard);
 }
-buttonStopElement?.addEventListener("click", stopGameFuntion);
-buttonGameOverElement?.addEventListener("click", playAgain);
-buttonClueElement?.addEventListener("click", clueFuntion);
+if (
+  buttonStopElement !== null &&
+  buttonStopElement !== undefined &&
+  buttonStopElement instanceof HTMLButtonElement
+) {
+  buttonStopElement.addEventListener("click", stopGameFuntion);
+}
+if (
+  buttonGameOverElement !== null &&
+  buttonGameOverElement !== undefined &&
+  buttonGameOverElement instanceof HTMLButtonElement
+) {
+  buttonGameOverElement.addEventListener("click", playAgain);
+}
+if (
+  buttonClueElement !== null &&
+  buttonClueElement !== undefined &&
+  buttonClueElement instanceof HTMLButtonElement
+) {
+  buttonClueElement.addEventListener("click", clueFuntion);
+}
