@@ -46,34 +46,34 @@ const printUrlCard = (card: number) => {
 };
 
 const checkButton = () => {
-  if (buttonCardElement instanceof HTMLButtonElement && buttonCardElement.disabled) {
+  if (buttonCardElement instanceof HTMLButtonElement && buttonCardElement.disabled && buttonCardElement !== undefined && buttonCardElement != null) {
     buttonCardElement.classList.add("button-disabled");
-  } else {
-    buttonCardElement?.classList.remove("button-disabled");
+  } else if(buttonCardElement instanceof HTMLButtonElement && buttonCardElement !== undefined && buttonCardElement != null) {
+    buttonCardElement.classList.remove("button-disabled");
   }
 
-  if (buttonStopElement instanceof HTMLButtonElement && buttonStopElement.disabled) {
+  if (buttonStopElement instanceof HTMLButtonElement && buttonStopElement.disabled && buttonStopElement !== undefined && buttonStopElement != null) {
     buttonStopElement.classList.add("button-disabled");
-  } else {
-    buttonStopElement?.classList.remove("button-disabled");
+  } else if(buttonStopElement instanceof HTMLButtonElement && buttonStopElement !== undefined && buttonStopElement != null){
+    buttonStopElement.classList.remove("button-disabled");
   }
 
-  if (buttonClueElement instanceof HTMLButtonElement && buttonClueElement.disabled) {
+  if (buttonClueElement instanceof HTMLButtonElement && buttonClueElement.disabled && buttonClueElement !== undefined && buttonClueElement != null) {
     buttonClueElement.classList.add("button-disabled");
-  } else {
-    buttonClueElement?.classList.remove("button-disabled");
+  } else if(buttonClueElement instanceof HTMLButtonElement && buttonClueElement !== undefined && buttonClueElement != null){
+    buttonClueElement.classList.remove("button-disabled");
   }
 
-  if (buttonGameOverElement instanceof HTMLButtonElement && buttonGameOverElement.disabled) {
+  if (buttonGameOverElement instanceof HTMLButtonElement && buttonGameOverElement.disabled && buttonCardElement !== undefined && buttonCardElement != null) {
     buttonGameOverElement.classList.add("button-disabled");
-  } else {
-    buttonGameOverElement?.classList.remove("button-disabled");
+  } else if(buttonGameOverElement instanceof HTMLButtonElement && buttonCardElement !== undefined && buttonCardElement != null){
+    buttonGameOverElement.classList.remove("button-disabled");
   }
 };
 
 
 const activeButtonStop = () => {
-  if (buttonStopElement instanceof HTMLButtonElement) {
+  if (buttonStopElement instanceof HTMLButtonElement && buttonStopElement !== undefined && buttonStopElement != null) {
     buttonStopElement.disabled = false;
   }
 };
@@ -92,12 +92,12 @@ const setScore = (newScore: number) => {
 
 const winGame = () => {
   if (
-    textOverElement != null &&
-    buttonCardElement instanceof HTMLButtonElement &&
-    buttonStopElement instanceof HTMLButtonElement &&
-    buttonGameOverElement instanceof HTMLButtonElement
+    textOverElement != null && textOverElement != undefined && textOverElement instanceof HTMLSpanElement &&
+    buttonCardElement != null && buttonCardElement != undefined && buttonCardElement instanceof HTMLButtonElement &&
+    buttonStopElement != null && buttonStopElement != undefined && buttonStopElement instanceof HTMLButtonElement &&
+    buttonGameOverElement != null && buttonGameOverElement != undefined && buttonGameOverElement instanceof HTMLButtonElement
   ) {
-    textOverElement.textContent = "¡ Lo has clavado! ¡Enhorabuena!";
+    textOverElement.textContent = "¡Lo has clavado! ¡Enhorabuena!";
     buttonCardElement.disabled = true;
     buttonStopElement.disabled = true;
     buttonGameOverElement.disabled = false;
@@ -106,10 +106,10 @@ const winGame = () => {
 
 const lostGame = () => {
   if (
-    textOverElement != null &&
-    buttonGameOverElement instanceof HTMLButtonElement &&
-    buttonStopElement instanceof HTMLButtonElement &&
-    buttonCardElement instanceof HTMLButtonElement
+    textOverElement != null && textOverElement != undefined && textOverElement instanceof HTMLSpanElement &&
+    buttonGameOverElement != null && buttonGameOverElement != undefined && buttonGameOverElement instanceof HTMLButtonElement &&
+    buttonStopElement != null && buttonStopElement != undefined && buttonStopElement instanceof HTMLButtonElement &&
+    buttonCardElement != null && buttonCardElement != undefined && buttonCardElement instanceof HTMLButtonElement
   ) {
     textOverElement.textContent = "Te has pasado";
     buttonGameOverElement.disabled = false;
@@ -128,13 +128,13 @@ const reviewGame = () => {
 };
 
 const printScore = (score: number) => {
-  if (textScoreElement && textScoreElement instanceof HTMLSpanElement) {
+  if (textScoreElement != null && textScoreElement != undefined && textScoreElement instanceof HTMLSpanElement) {
     textScoreElement.textContent = score.toString();
   }
 };
 
 const checkScore = (): void => {
-  if (textScoreElement !== null && textScoreElement instanceof HTMLSpanElement) {
+  if (textScoreElement !== null && textScoreElement != undefined && textScoreElement instanceof HTMLSpanElement) {
     if (randomNumber <= 7) {
       score += randomNumber;
     } else {
@@ -146,13 +146,15 @@ const checkScore = (): void => {
 };
 
 const showCard = (cart: number): void => {
-  if (cardElement !== null && cardUrls[cart] && cardElement instanceof HTMLImageElement) {
+  if (cardElement !== null &&  cardElement != undefined && cardElement instanceof HTMLImageElement && cardUrls[cart] != null && cardUrls[cart] != undefined) {
     cardElement.src = cardUrls[cart];
   }
 };
 
 const restartGame = (): void => {
-  if (cardElement instanceof HTMLImageElement && textOverElement instanceof HTMLSpanElement && textScoreElement instanceof HTMLSpanElement) {
+  if (cardElement instanceof HTMLImageElement && cardElement != undefined && cardElement != null && 
+    textOverElement instanceof HTMLSpanElement && textOverElement != undefined && textOverElement != null &&
+    textScoreElement instanceof HTMLSpanElement && textScoreElement != undefined && textScoreElement != null) {
     cardElement.src =
       "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
     textOverElement.textContent = "";
@@ -162,10 +164,10 @@ const restartGame = (): void => {
 
 const restartButton = (): void => {
   if (
-    buttonCardElement instanceof HTMLButtonElement &&
-    buttonStopElement instanceof HTMLButtonElement &&
-    buttonGameOverElement instanceof HTMLButtonElement &&
-    buttonClueElement instanceof HTMLButtonElement
+    buttonCardElement != null && buttonCardElement != undefined && buttonCardElement instanceof HTMLButtonElement &&
+    buttonStopElement != null && buttonStopElement != undefined && buttonStopElement instanceof HTMLButtonElement &&
+    buttonGameOverElement != null && buttonGameOverElement != undefined && buttonGameOverElement instanceof HTMLButtonElement &&
+    buttonClueElement != null && buttonClueElement != undefined && buttonClueElement instanceof HTMLButtonElement
   ) {
     buttonCardElement.disabled = false;
     buttonStopElement.disabled = true;
@@ -174,48 +176,44 @@ const restartButton = (): void => {
   }
 };
 
-const mostrarMensajeCuandoParoLaPartida = (mensaje: string) => {
-  const textOverElement = document.getElementById("");
-  if (textOverElement) {
-    textOverElement.textContent = mensaje;
-  }
-};
 
 const printTextStopGame = ():string =>{
   if (score < 4 && textOverElement) {
     return "Has sido muy conservador";
-  } else if (score <= 5 && textOverElement != null) {
+  } else if (score <= 5 && textOverElement != null && textOverElement  instanceof HTMLSpanElement && textOverElement != undefined) {
     return "Te ha entrado el canguelo eh?";
-  } else if (score <= 7 && textOverElement != null) {
+  } else if (score <= 7 && textOverElement != null && textOverElement  instanceof HTMLSpanElement && textOverElement != undefined) {
     return "Casi casi...";
-  } else if (score === 7.5 && textOverElement != null) {
+  } else if (score === 7.5 && textOverElement != null && textOverElement  instanceof HTMLSpanElement && textOverElement != undefined) {
     return "¡ Lo has clavado! ¡Enhorabuena!";
   }
   return "";
 }
 
 const stopGameFuntion = (): void => {
-  if (buttonCardElement instanceof HTMLButtonElement && buttonStopElement instanceof HTMLButtonElement && buttonGameOverElement instanceof HTMLButtonElement) {
+  if (buttonCardElement != null && buttonCardElement != undefined && buttonCardElement instanceof HTMLButtonElement &&
+    buttonStopElement != null && buttonStopElement != undefined && buttonStopElement instanceof HTMLButtonElement &&
+    buttonGameOverElement != null && buttonGameOverElement != undefined && buttonGameOverElement instanceof HTMLButtonElement) 
+    {
     buttonCardElement.disabled = true;
     buttonStopElement.disabled = true;
     buttonGameOverElement.disabled = false;
   }
-  if (buttonClueElement) {
+  if (buttonClueElement != null && buttonClueElement != undefined && buttonClueElement instanceof HTMLButtonElement) {
     buttonClueElement.classList.remove("hide");
   }
   const message = printTextStopGame()
-  if (textOverElement) {
+  if (textOverElement instanceof HTMLSpanElement && textOverElement != null && textOverElement != undefined) {
     textOverElement.textContent = message; 
   }
   checkButton();
 };
 
 const clueFuntion = (): void => {
-  let nextRandomNumber = 0;
-  nextRandomNumber =
-    Math.floor(Math.random() * 10 + 1) + (nextRandomNumber > 7 ? 2 : 0);
-  if (textOverElement != null && textOverElement instanceof HTMLSpanElement) {
-    const cardName = allCards[nextRandomNumber.toString()];
+  let nextRandomNumber = getRandomNumber();
+  let cardNumber = getCartNumber(nextRandomNumber);
+  if (textOverElement != null && textOverElement != undefined && textOverElement instanceof HTMLSpanElement) {
+    const cardName = allCards[cardNumber.toString()];
     textOverElement.innerHTML = `La siguiente hubiera sido la carta: <br>${cardName}`;
   }
 };
