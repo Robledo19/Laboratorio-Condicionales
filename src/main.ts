@@ -7,7 +7,6 @@ const buttonClueElement = document.getElementById("button-clue");
 const cardElement = document.getElementById("card");
 let score = 0;
 let randomNumber: number = 0;
-let clueUsed = false;
 const cardUrls: { [key: number]: string } = {
   1: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg",
   2: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg",
@@ -136,13 +135,7 @@ const printScore = (score: number) => {
 
 const checkScore = (): void => {
   if (textScoreElement !== null && textScoreElement !== undefined && textScoreElement instanceof HTMLSpanElement) {
-    if (randomNumber <= 7) {
-      const points = getCardPoints(randomNumber);
-      score += points;
-    } else {
-      score += 0.5;
-    }
-    textScoreElement.textContent = score.toString();
+    textScoreElement.textContent = '0';
   }
   checkButton();
 };
@@ -212,7 +205,6 @@ const stopGameFuntion = (): void => {
 };
 
 const clueFuntion = (): void => {
-  if (clueUsed) return;
   let nextRandomNumber = getRandomNumber();
   let cardNumber = getCartNumber(nextRandomNumber);
   if (textOverElement !== null && textOverElement !== undefined && textOverElement instanceof HTMLSpanElement) {
@@ -220,7 +212,6 @@ const clueFuntion = (): void => {
     textOverElement.innerHTML = `La siguiente hubiera sido la carta: <br>${cardName}`;
   }
 
-  clueUsed = true; 
   if (buttonClueElement !== null && buttonClueElement !== undefined && buttonClueElement instanceof HTMLButtonElement) {
     buttonClueElement.disabled = true; 
   }
@@ -236,7 +227,6 @@ const getCartNumber = (randomNumber: number) => {
 };
 
 const resertClueFuntion = () =>{
-  clueUsed = false
   if (buttonClueElement !== null && buttonClueElement !== undefined && buttonClueElement instanceof HTMLButtonElement) {
     buttonClueElement.disabled = false; 
   }
